@@ -1,7 +1,6 @@
 package de.neuefische.asterix_dbdata.collection;
 
 import de.neuefische.asterix_dbdata.repository.CharacterRepository;
-import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.web.bind.annotation.*;
 import de.neuefische.asterix_dbdata.model.Character;
 
@@ -26,4 +25,25 @@ public class AsterixController {
         return characterRepo.save(character);
    }
 
+   @GetMapping("/{id}")
+    public Character getCharacterById(@PathVariable String id) {
+       return characterRepo.findById(id).get();
+   }
+
+   @PutMapping
+    public Character updateCharacter(@RequestBody Character character) {
+      Character retCharacter = characterRepo.findById(character.id()).orElse(null);
+      retCharacter = character;
+      return characterRepo.save(retCharacter);
+   }
+
+   @DeleteMapping
+    public void deleteCharacterById(@RequestParam String id) {
+        characterRepo.deleteById(id);
+   }
+
+   @GetMapping("/search")
+    public List<Character> searchCharacters(@RequestParam String query) {
+        return characterRepo.streamByNameContainsIgnoreCase(query);
+   }
 }
