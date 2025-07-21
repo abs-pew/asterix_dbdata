@@ -9,7 +9,5 @@ import java.util.List;
 @Repository
 public interface CharacterRepository extends MongoRepository<Character,String> {
 
-    List<Character> streamByNameEqualsIgnoreCase(String name);
-
     List<Character> streamByNameContainsIgnoreCase(String name);
 }
